@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DeskFlow")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83517a9cd5d60053fed8059232ec252d437aac3a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75343f0f1b9977a83d27004c9d4967d086dc6f3c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DeskFlow")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DeskFlow")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
