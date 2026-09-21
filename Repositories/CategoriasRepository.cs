@@ -11,19 +11,22 @@ namespace DeskFlow.Repositories
         {
             _context = context;
         }
-        public Task Atualizar(Categoria categoria)
+        public async Task Atualizar(Categoria categoria)
         {
-            throw new NotImplementedException();
+            _context.Categoria.Update(categoria);
+            await _context.SaveChangesAsync();
         }
 
-        public Task CadastrarAsync(Categoria categoria)
+        public async Task CadastrarAsync(Categoria categoria)
         {
-            throw new NotImplementedException();
+            await _context.Categoria.AddAsync(categoria);
+            await _context.SaveChangesAsync();
         }
 
-        public Task Deletar(Categoria categoria)
+        public async Task Deletar(Categoria categoria)
         {
-            throw new NotImplementedException()
+            _context.Categoria.Remove(categoria);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Categoria> ObterPorIdAsync(int id)
