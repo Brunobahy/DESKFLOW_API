@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeskFlow.Repositories
 {
-    public class CategoriaRepository : ICategoriasRepository
+    public class CategoriasRepository : ICategoriasRepository
     {
-        private AppDbContext _context;
-        public CategoriaRepository(AppDbContext context)
+        private DeskFlowDbContext _context;
+        public CategoriasRepository(DeskFlowDbContext context)
         {
             _context = context;
         }
@@ -29,7 +29,7 @@ namespace DeskFlow.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Categoria> ObterPorIdAsync(int id)
+        public async Task<Categoria> ObterPorIdAsync(string id)
         {
             return await _context.Categoria.FindAsync(id);
         }

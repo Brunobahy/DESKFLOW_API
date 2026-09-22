@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeskFlow
 {
-    public class AppDbContext : DbContext
+    public class DeskFlowDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        public DeskFlowDbContext(DbContextOptions options) : base(options)
         {
         }
         public DbSet<Categoria> Categoria => Set<Categoria>();

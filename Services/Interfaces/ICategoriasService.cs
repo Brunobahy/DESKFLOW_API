@@ -4,10 +4,10 @@ namespace DeskFlow.Services.Interface
 {
     public interface ICategoriasService
     {
-        Task<List<Categoria>> ObterTodosAsync();
-        Task<Categoria> ObterPorIdAsync(int id);
+        Task Deletar(string id);
+        Task Atualizar(Categoria categoria, string id);
         Task CadastrarAsync(Categoria categoria);
-        Task Deletar(Categoria categoria);
-        Task Atualizar(Categoria categoria);
+        Task<Categoria> ObterPorIdAsync(string id);
+        Task<List<Categoria>> ObterTodosAsync();
     }
 }

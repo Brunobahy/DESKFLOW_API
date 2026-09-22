@@ -11,10 +11,16 @@ namespace DeskFlow.Models
     {
         [Key]
         [Column("codCategoria", TypeName = "varchar(50)")]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
+        [Required]
         [MaxLength(150)]
         [Column("nomeCategoria", TypeName = "varchar(150)")]
         public string Nome { get; set; }
 
+        public void Atualizar(Categoria categoriaAtualizada)
+        {
+            Nome = categoriaAtualizada.Nome;
+        }
     }
 }

@@ -3,7 +3,6 @@ using DeskFlow.Models;
 using DeskFlow.Repositories.Interface;
 using DeskFlow.Services.Interface;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DeskFlow.Services
 {
@@ -16,22 +15,36 @@ namespace DeskFlow.Services
             _categoriasRepository = categoriasRepository;
         }
 
-        public async Task<Categoria> Atualizar(Categoria categoriaAtualizada, int id)
+        public async Task Atualizar(Categoria categoriaAtualizada, string id)
         {
-            Categoria categoria = await _categoriasRepository.ObterPorIdAsync(id);
-            if (categoria == null)
+            Categoria categoriaDb = await _categoriasRepository.ObterPorIdAsync(id);
+            if (categoriaDb != null)
             {
-                return null;
+                categoriaDb.Atualizar(categoriaAtualizada);
+                await _categoriasRepository.Atualizar(categoriaDb);
             }
-            await _categoriasRepository.Atualizar(categoriaAtualizada);
         }
 
-        public Task CadastrarAsync(Categoria categoria)
+        public async Task CadastrarAsync(Categoria categoria)
         {
-            throw new NotImplementedException();
+            List<Categoria> listaCategoria = await _categoriasRepository.ObterTodosAsync();
+            bool repetido = false;
+            listaCategoria.ForEach(categoriaDb =>
+            {
+                if (categoriaDb.Nome.ToLower() == categoria.Nome.ToLower())
+                {
+                    repetido = true;
+                    return;
+                }
+            });
+            if (!repetido)
+            {
+                await _categoriasRepository.CadastrarAsync(categoria);
+            }
+            return;
         }
 
-        public async Task Deletar(int id)
+        public async Task Deletar(string id)
         {
             Categoria categoriaDB = await _categoriasRepository.ObterPorIdAsync(id);
             if (categoriaDB == null)
@@ -43,7 +56,7 @@ namespace DeskFlow.Services
 
         }
 
-        public async Task<Categoria> ObterPorIdAsync(int id)
+        public async Task<Categoria> ObterPorIdAsync(string id)
         {
             return await _categoriasRepository.ObterPorIdAsync(id);
         }
