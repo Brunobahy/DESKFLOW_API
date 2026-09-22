@@ -41,11 +41,8 @@ namespace DeskFlow.Migrations
 
             modelBuilder.Entity("DeskFlow.Models.Chamado", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");

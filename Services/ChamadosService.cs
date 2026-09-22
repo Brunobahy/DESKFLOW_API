@@ -1,6 +1,6 @@
 using DeskFlow.Models;
-using DeskFlow.Repositories.Interface;
-using DeskFlow.Services.Interface;
+using DeskFlow.Repositories.Interfaces;
+using DeskFlow.Services.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DeskFlow.Services
@@ -9,9 +9,9 @@ namespace DeskFlow.Services
     {
         private IChamadosRepository _chamadosRepository;
 
-        public ChamadosService(IChamadosRepository context)
+        public ChamadosService(IChamadosRepository chamadosRepository)
         {
-            _chamadosRepository = context;
+            _chamadosRepository = chamadosRepository;
         }
 
         public async Task Atualizar(Chamado chamado, string id)
@@ -29,9 +29,14 @@ namespace DeskFlow.Services
             await _chamadosRepository.CadastrarAsync(chamado);
         }
 
-        public async Task Deletar(Chamado chamado)
+        public async Task Deletar(string id)
         {
-            await _chamadosRepository.Deletar(chamado);
+            Chamado chamadoDb = await _chamadosRepository.ObterPorIdAsync(id);
+            if (chamadoDb != null)
+            {
+                await _chamadosRepository.Deletar(chamadoDb);
+
+            }
         }
 
         public async Task<Chamado> ObterPorIdAsync(string id)

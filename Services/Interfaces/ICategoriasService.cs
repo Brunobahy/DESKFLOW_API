@@ -1,6 +1,6 @@
 using DeskFlow.Models;
 
-namespace DeskFlow.Services.Interface
+namespace DeskFlow.Services.Interfaces
 {
     public interface ICategoriasService
     {

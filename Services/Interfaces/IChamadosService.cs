@@ -1,6 +1,6 @@
 using DeskFlow.Models;
 
-namespace DeskFlow.Services.Interface
+namespace DeskFlow.Services.Interfaces
 {
 
     public interface IChamadosService
@@ -8,7 +8,7 @@ namespace DeskFlow.Services.Interface
         Task<List<Chamado>> ObterTodosAsync();
         Task<Chamado> ObterPorIdAsync(string id);
         Task CadastrarAsync(Chamado chamado);
-        Task Deletar(Chamado chamado);
+        Task Deletar(string id);
         Task Atualizar(Chamado chamado, string id);
     }
 }

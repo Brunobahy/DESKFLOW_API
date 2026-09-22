@@ -1,6 +1,6 @@
 using DeskFlow.Models;
 
-namespace DeskFlow.Repositories.Interface
+namespace DeskFlow.Repositories.Interfaces
 {
     public interface IChamadosRepository
     {

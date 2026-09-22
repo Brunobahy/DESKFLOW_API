@@ -1,7 +1,7 @@
 
 using DeskFlow.Models;
-using DeskFlow.Repositories.Interface;
-using DeskFlow.Services.Interface;
+using DeskFlow.Repositories.Interfaces;
+using DeskFlow.Services.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DeskFlow.Services

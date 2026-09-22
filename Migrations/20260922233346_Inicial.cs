@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeskFlow.Migrations
 {
     /// <inheritdoc />
-    public partial class criandoCategorias : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace DeskFlow.Migrations
                 name: "Chamado",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TituloChamado = table.Column<string>(type: "varchar(250)", nullable: false),
                     DescricaoChamado = table.Column<string>(type: "varchar(500)", nullable: false),
                     PrioridadeChamado = table.Column<string>(type: "varchar(50)", nullable: false),

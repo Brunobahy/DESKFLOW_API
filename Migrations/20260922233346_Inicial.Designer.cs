@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeskFlow.Migrations
 {
     [DbContext(typeof(DeskFlowDbContext))]
-    [Migration("20260922152145_criandoCategorias")]
-    partial class criandoCategorias
+    [Migration("20260922233346_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,11 +44,8 @@ namespace DeskFlow.Migrations
 
             modelBuilder.Entity("DeskFlow.Models.Chamado", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");

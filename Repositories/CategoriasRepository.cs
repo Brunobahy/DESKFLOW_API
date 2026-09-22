@@ -1,5 +1,5 @@
 using DeskFlow.Models;
-using DeskFlow.Repositories.Interface;
+using DeskFlow.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DeskFlow.Repositories

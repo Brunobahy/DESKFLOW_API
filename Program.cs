@@ -1,8 +1,8 @@
 using DeskFlow;
 using DeskFlow.Repositories;
-using DeskFlow.Repositories.Interface;
+using DeskFlow.Repositories.Interfaces;
 using DeskFlow.Services;
-using DeskFlow.Services.Interface;
+using DeskFlow.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,10 @@ string connection = builder.Configuration.GetConnectionString("DefaultConnection
 builder.Services.AddDbContext<DeskFlowDbContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddScoped<ICategoriasRepository, CategoriasRepository>();
+builder.Services.AddScoped<IChamadosRepository, ChamadosRepository>();
+
 builder.Services.AddScoped<ICategoriasService, CategoriasService>();
+builder.Services.AddScoped<IChamadosService, ChamadosService>();
 
 
 var app = builder.Build();
