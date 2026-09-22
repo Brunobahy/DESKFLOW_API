@@ -2,7 +2,7 @@ namespace DeskFlow.Models
 {
     public class Chamado
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string Prioridade { get; set; }
@@ -12,5 +12,16 @@ namespace DeskFlow.Models
         public DateTime DataFechamento { get; set; }
         public string Solucao { get; set; }
         public int CategoriaId { get; set; }
+
+
+        public void Atualizar(Chamado chamadoAtualizado)
+        {
+            Titulo = chamadoAtualizado.Titulo;
+            Descricao = chamadoAtualizado.Descricao;
+            Prioridade = chamadoAtualizado.Prioridade;
+            Status = chamadoAtualizado.Status;
+            Solucao = chamadoAtualizado.Solucao;
+            CategoriaId = chamadoAtualizado.CategoriaId;
+        }
     }
 }

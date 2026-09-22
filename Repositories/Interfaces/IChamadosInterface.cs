@@ -2,7 +2,7 @@ using DeskFlow.Models;
 
 namespace DeskFlow.Repositories.Interface
 {
-    public interface IChamdosRepository
+    public interface IChamadosRepository
     {
         Task<List<Chamado>> ObterTodosAsync();
         Task<Chamado> ObterPorIdAsync(string id);

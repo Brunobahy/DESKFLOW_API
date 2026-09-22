@@ -14,30 +14,35 @@ namespace DeskFlow.Services
             _chamadosRepository = context;
         }
 
-        public Task Atualizar(Chamado chamado)
+        public async Task Atualizar(Chamado chamado, string id)
         {
-            throw new NotImplementedException();
+            Chamado DbChamado = await _chamadosRepository.ObterPorIdAsync(id);
+            if (DbChamado != null)
+            {
+                DbChamado.Atualizar(chamado);
+                await _chamadosRepository.Atualizar(DbChamado);
+            }
         }
 
-        public Task CadastrarAsync(Chamado chamado)
+        public async Task CadastrarAsync(Chamado chamado)
         {
-            throw new NotImplementedException();
+            await _chamadosRepository.CadastrarAsync(chamado);
         }
 
-        public Task Deletar(Chamado chamado)
+        public async Task Deletar(Chamado chamado)
         {
-            throw new NotImplementedException();
+            await _chamadosRepository.Deletar(chamado);
         }
 
-        public Task<Chamado> ObterPorIdAsync(string id)
+        public async Task<Chamado> ObterPorIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _chamadosRepository.ObterPorIdAsync(id);
         }
 
         public async Task<List<Chamado>> ObterTodosAsync()
         {
             List<Chamado> chamados = await _chamadosRepository.ObterTodosAsync();
-            return Ok(chamados);
+            return chamados;
         }
     }
 }
