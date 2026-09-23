@@ -3,6 +3,7 @@ using DeskFlow.Repositories;
 using DeskFlow.Repositories.Interfaces;
 using DeskFlow.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client.NativeInterop;
 
 namespace DeskFlow.Controllers
 {
@@ -33,6 +34,11 @@ namespace DeskFlow.Controllers
         {
             await _chamadoService.Deletar(id);
         }
+        [HttpPut("{id}")]
+        public async Task Atualizar([FromRoute] string id, [FromBody] Chamado chamado)
+        {
+            await _chamadoService.Atualizar(chamado, id);
+        }
 
         [HttpPost]
         public async Task CadastrarAsync([FromBody] Chamado chamado)
@@ -40,7 +46,15 @@ namespace DeskFlow.Controllers
             await _chamadoService.CadastrarAsync(chamado);
         }
 
-
-
+        [HttpPost("{id}/iniciar")]
+        public async Task IniciarChamado([FromRoute] string id)
+        {
+            await _chamadoService.Iniciar(id);
+        }
+        [HttpPost("{id}/finalizar")]
+        public async Task FinalizarChamado([FromRoute] string id)
+        {
+            await _chamadoService.Finalizar(id);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using DeskFlow.Config;
 using DeskFlow;
 using DeskFlow.Repositories;
 using DeskFlow.Repositories.Interfaces;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IChamadosService, ChamadosService>();
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 app.MapOpenApi();
