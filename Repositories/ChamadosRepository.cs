@@ -33,13 +33,32 @@ namespace DeskFlow.Repositories
 
         public async Task<Chamado> ObterPorIdAsync(string id)
         {
-            return await _context.Chamado.FindAsync(id);
+            return await _context.Chamado.Include(c => c.Comentarios.OrderBy(d => d.DataRegistro)).FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<List<Chamado>> ObterTodosAsync()
+        public async Task<List<Chamado>> ObterTodosAsync(string? status, string? prioridade, string? categoriaId)
         {
-            List<Chamado> chamados = await _context.Chamado.ToListAsync();
+            var query = _context.Chamado.AsQueryable();
+            if (status != null)
+            {
+                query = query.Where(c => c.Status == status);
+            }
+            if (prioridade != null)
+            {
+                query = query.Where(c => c.Prioridade == prioridade);
+            }
+            if (categoriaId != null)
+            {
+                query = query.Where(c => c.CategoriaId == categoriaId);
+            }
+            List<Chamado> chamados = await query.ToListAsync();
             return chamados;
         }
+
+        // public async Task<Interacao> AdicionaInteracaoAsync(string id, Interacao interacao)
+        // {
+        //     List<Chamado> chamados = await _context.Chamado.ToListAsync();
+
+        // }
     }
 }

@@ -4,14 +4,13 @@ namespace DeskFlow.Models
     public class Interacao
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string ChamadoId { get; set; }
+        public string? ChamadoId { get; set; }
         public string Autor { get; set; }
         public string Mensagem { get; set; }
         public DateTime DataRegistro { get; set; } = DateTime.Now;
 
-        public Interacao(string chamadoId, string autor, string mensagem)
+        public Interacao(string autor, string mensagem)
         {
-            ChamadoId = chamadoId;
             Autor = autor;
             Mensagem = mensagem;
         }

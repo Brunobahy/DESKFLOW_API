@@ -13,20 +13,19 @@ namespace DeskFlow.Models
         public string SolicitanteNome { get; set; }
         public DateTime DataAbertura { get; set; } = DateTime.Now;
         public DateTime DataFechamento { get; set; }
-        public string Solucao { get; set; } = null;
-        public int CategoriaId { get; set; }
+        public string? Solucao { get; set; }
+        public string CategoriaId { get; set; }
         public List<Interacao> Comentarios { get; set; } = new();
 
         public Chamado()
         {
-            Comentarios = new List<Interacao>
-            {
-                new Interacao(
-                    Id,
+            Comentarios = new List<Interacao>();
+            Interacao interacao = new Interacao(
                     "Sistema",
                     $"Chamado aberto dia {DateTime.Now.Day}/{DateTime.Now.Month}"
-                )
-            };
+                );
+            interacao.ChamadoId = Id;
+            Comentarios.Add(interacao);
         }
 
         public void Atualizar(Chamado chamadoAtualizado)
@@ -42,6 +41,14 @@ namespace DeskFlow.Models
         public void AlterarStatus(string statusAlterado)
         {
             Status = statusAlterado;
+            Interacao interacao = new Interacao(
+                    "Sistema",
+                    $"Chamado teve os status alterado para {statusAlterado}"
+                );
+
+            interacao.ChamadoId = Id;
+            Comentarios.Add(interacao);
+
         }
 
         public void Finalizar()

@@ -18,9 +18,9 @@ namespace DeskFlow.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObterTodosAsync()
+        public async Task<IActionResult> ObterTodosAsync(string? status, string? prioridade, string? categoriaId)
         {
-            List<Chamado> chamados = await _chamadoService.ObterTodosAsync();
+            List<Chamado> chamados = await _chamadoService.ObterTodosAsync(status, prioridade, categoriaId);
             return Ok(chamados);
         }
         [HttpGet("{id}")]
@@ -41,9 +41,11 @@ namespace DeskFlow.Controllers
         }
 
         [HttpPost]
-        public async Task CadastrarAsync([FromBody] Chamado chamado)
+        public async Task<IActionResult> CadastrarAsync([FromBody] Chamado chamado)
         {
             await _chamadoService.CadastrarAsync(chamado);
+            return Created("/chamados", chamado);
+
         }
 
         [HttpPost("{id}/iniciar")]
@@ -55,6 +57,12 @@ namespace DeskFlow.Controllers
         public async Task FinalizarChamado([FromRoute] string id)
         {
             await _chamadoService.Finalizar(id);
+        }
+
+        [HttpPost("{id}/interacoes")]
+        public async Task AdicionarInteracao([FromRoute] string id, [FromBody] Interacao interacao)
+        {
+            await _chamadoService.AdicionarInteracaoAsync(id, interacao);
         }
     }
 }
