@@ -31,9 +31,9 @@ namespace DeskFlow.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Chamado> ObterPorIdAsync(string id)
+        public async Task<Chamado?> ObterPorIdAsync(string id)
         {
-            return await _context.Chamado.Include(c => c.Comentarios.OrderBy(d => d.DataRegistro)).FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Chamado.Include(c => c.Interacoes.OrderBy(d => d.DataRegistro)).Include(c => c.Categoria).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<List<Chamado>> ObterTodosAsync(string? status, string? prioridade, string? categoriaId)

@@ -6,12 +6,12 @@ namespace DeskFlow.Services.Interfaces
     public interface IChamadosService
     {
         Task<List<Chamado>> ObterTodosAsync(string? status, string? prioridade, string? categoriaId);
-        Task<Chamado> ObterPorIdAsync(string id);
+        Task<Chamado?> ObterPorIdAsync(string id);
         Task CadastrarAsync(Chamado chamado);
         Task Deletar(string id);
         Task Atualizar(Chamado chamado, string id);
         Task Iniciar(string id);
-        Task Finalizar(string id);
+        Task Finalizar(string id, string solucao);
         Task<Interacao> AdicionarInteracaoAsync(string id, Interacao interacao);
     }
 }

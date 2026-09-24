@@ -4,6 +4,7 @@ using DeskFlow;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeskFlow.Migrations
 {
     [DbContext(typeof(DeskFlowDbContext))]
-    partial class DeskFlowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260924000707_AjustandoRelacoesEntreTabelas")]
+    partial class AjustandoRelacoesEntreTabelas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,13 +119,11 @@ namespace DeskFlow.Migrations
 
             modelBuilder.Entity("DeskFlow.Models.Chamado", b =>
                 {
-                    b.HasOne("DeskFlow.Models.Categoria", "Categoria")
+                    b.HasOne("DeskFlow.Models.Categoria", null)
                         .WithMany()
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("DeskFlow.Models.Interacao", b =>

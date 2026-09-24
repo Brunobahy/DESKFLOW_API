@@ -19,7 +19,7 @@ namespace DeskFlow.Services
             _categoriaRepository = categoriaRepository;
         }
 
-        private async Task<Chamado> GetOrError(string id)
+        private async Task<Chamado> ObtemOuErro(string id)
         {
             Chamado chamadoDb = await _chamadosRepository.ObterPorIdAsync(id);
             if (chamadoDb == null)
@@ -31,7 +31,7 @@ namespace DeskFlow.Services
 
         public async Task Atualizar(Chamado chamado, string id)
         {
-            Chamado DbChamado = await GetOrError(id);
+            Chamado DbChamado = await ObtemOuErro(id);
             DbChamado.Atualizar(chamado);
             await _chamadosRepository.Atualizar(DbChamado);
         }
@@ -44,19 +44,25 @@ namespace DeskFlow.Services
             {
                 throw new NotFoundException("ID da Categoria não encontrado!");
             }
-
+            chamado.Categoria = categoria;
+            Interacao interacao = new Interacao(
+                "Sistema",
+                $"Chamado aberto dia {DateTime.Now.Day}/{DateTime.Now.Month}"
+            );
+            interacao.ChamadoId = chamado.Id;
+            chamado.Interacoes.Add(interacao);
             await _chamadosRepository.CadastrarAsync(chamado);
         }
 
         public async Task Deletar(string id)
         {
-            Chamado chamadoDb = await GetOrError(id);
+            Chamado chamadoDb = await ObtemOuErro(id);
             await _chamadosRepository.Deletar(chamadoDb);
         }
 
-        public async Task<Chamado> ObterPorIdAsync(string id)
+        public async Task<Chamado?> ObterPorIdAsync(string id)
         {
-            return await _chamadosRepository.ObterPorIdAsync(id);
+            return await ObtemOuErro(id);
         }
 
         public async Task<List<Chamado>> ObterTodosAsync(string? status, string? prioridade, string? categoriaId)
@@ -66,20 +72,25 @@ namespace DeskFlow.Services
         }
         public async Task Iniciar(string id)
         {
-            Chamado chamadoDb = await GetOrError(id);
+            Chamado chamadoDb = await ObtemOuErro(id);
             chamadoDb.AlterarStatus("EmAndamento");
             await _chamadosRepository.Atualizar(chamadoDb);
         }
-        public async Task Finalizar(string id)
+        public async Task Finalizar(string id, string solucao)
         {
-            Chamado chamadoDb = await GetOrError(id);
+            Chamado chamadoDb = await ObtemOuErro(id);
+            chamadoDb.Solucao = solucao;
             chamadoDb.Finalizar();
             await _chamadosRepository.Atualizar(chamadoDb);
         }
 
         public async Task<Interacao> AdicionarInteracaoAsync(string id, Interacao interacao)
         {
-            Chamado chamadoDb = await GetOrError(id);
+            Chamado chamadoDb = await ObtemOuErro(id);
+            if (chamadoDb.Status == "Fechado")
+            {
+                throw new ValidationException("Não é possivel interagir com chamados Fechados!");
+            }
             interacao.ChamadoId = chamadoDb.Id;
             chamadoDb.AdicionarInteracao(interacao);
             await _chamadosRepository.Atualizar(chamadoDb);

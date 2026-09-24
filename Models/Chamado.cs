@@ -8,25 +8,16 @@ namespace DeskFlow.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Titulo { get; set; }
         public string Descricao { get; set; }
-        public string Prioridade { get; set; }
-        public string Status { get; set; } = "Aberto";
+        public string? Prioridade { get; set; }
+        public string? Status { get; set; } = "Aberto";
         public string SolicitanteNome { get; set; }
-        public DateTime DataAbertura { get; set; } = DateTime.Now;
-        public DateTime DataFechamento { get; set; }
+        public DateTime? DataAbertura { get; set; } = DateTime.Now;
+        public DateTime? DataFechamento { get; set; }
         public string? Solucao { get; set; }
-        public string CategoriaId { get; set; }
-        public List<Interacao> Comentarios { get; set; } = new();
 
-        public Chamado()
-        {
-            Comentarios = new List<Interacao>();
-            Interacao interacao = new Interacao(
-                    "Sistema",
-                    $"Chamado aberto dia {DateTime.Now.Day}/{DateTime.Now.Month}"
-                );
-            interacao.ChamadoId = Id;
-            Comentarios.Add(interacao);
-        }
+        public string CategoriaId { get; set; }
+        public Categoria? Categoria { get; set; }
+        public List<Interacao> Interacoes { get; set; } = new();
 
         public void Atualizar(Chamado chamadoAtualizado)
         {
@@ -47,7 +38,7 @@ namespace DeskFlow.Models
                 );
 
             interacao.ChamadoId = Id;
-            Comentarios.Add(interacao);
+            Interacoes.Add(interacao);
 
         }
 
@@ -71,7 +62,7 @@ namespace DeskFlow.Models
             {
                 throw new ValidationException("Você não pode comentar em chamados Fechados!");
             }
-            Comentarios.Add(interacao);
+            Interacoes.Add(interacao);
 
         }
     }

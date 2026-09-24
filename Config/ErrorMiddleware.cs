@@ -15,11 +15,20 @@ namespace DeskFlow.Config
         {
             try
             {
+
                 await _next(context);
             }
             catch (NotFoundException ex)
             {
-                context.Response.StatusCode = 404;
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                await context.Response.WriteAsJsonAsync(new
+                {
+                    erro = ex.Message
+                });
+            }
+            catch (ValidationException ex)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 await context.Response.WriteAsJsonAsync(new
                 {
                     erro = ex.Message

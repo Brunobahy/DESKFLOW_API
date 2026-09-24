@@ -58,8 +58,26 @@ namespace DeskFlow
                 .HasColumnName("SolucaoChamado")
                 .HasColumnType("varchar(500)");
 
+
+                chamado.HasOne(c => c.Categoria)
+                .WithMany().HasForeignKey(c => c.CategoriaId);
+
+                chamado.HasMany<Interacao>(c => c.Interacoes)
+                .WithOne().HasForeignKey(i => i.ChamadoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             });
 
+            modelBuilder.Entity<Interacao>(interacao =>
+            {
+                interacao.HasKey(i => i.Id);
+
+                interacao.Property(i => i.Autor)
+                .HasColumnType("varchar(100)");
+
+                interacao.Property(i => i.Mensagem)
+                .HasColumnType("nvarchar(max)");
+            });
         }
     }
 

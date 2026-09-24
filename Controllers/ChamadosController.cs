@@ -54,9 +54,9 @@ namespace DeskFlow.Controllers
             await _chamadoService.Iniciar(id);
         }
         [HttpPost("{id}/finalizar")]
-        public async Task FinalizarChamado([FromRoute] string id)
+        public async Task FinalizarChamado([FromRoute] string id, [FromBody] string solucao)
         {
-            await _chamadoService.Finalizar(id);
+            await _chamadoService.Finalizar(id, solucao);
         }
 
         [HttpPost("{id}/interacoes")]
