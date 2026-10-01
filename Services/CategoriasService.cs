@@ -1,4 +1,5 @@
 
+using DeskFlow.Exceptions;
 using DeskFlow.Models;
 using DeskFlow.Repositories.Interfaces;
 using DeskFlow.Services.Interfaces;
@@ -15,29 +16,46 @@ namespace DeskFlow.Services
             _categoriasRepository = categoriasRepository;
         }
 
+        private async Task<Categoria> ObtemOuErro(string id)
+        {
+            Categoria categoria = await _categoriasRepository.ObterPorIdAsync(id);
+            if (categoria == null)
+            {
+                throw new NotFoundException("Categoria não encontrada!");
+            }
+            else
+            {
+                return categoria;
+            }
+        }
+
         public async Task Atualizar(Categoria categoriaAtualizada, string id)
         {
-            Categoria categoriaDb = await _categoriasRepository.ObterPorIdAsync(id);
-            if (categoriaDb != null)
-            {
-                categoriaDb.Atualizar(categoriaAtualizada);
-                await _categoriasRepository.Atualizar(categoriaDb);
-            }
+            Categoria categoria = await ObtemOuErro(id);
+
+            categoria.Atualizar(categoriaAtualizada);
+            await _categoriasRepository.Atualizar(categoria);
         }
 
         public async Task CadastrarAsync(Categoria categoria)
         {
             List<Categoria> listaCategoria = await _categoriasRepository.ObterTodosAsync();
             bool repetido = false;
+            string categoriaDbId = "";
             listaCategoria.ForEach(categoriaDb =>
             {
                 if (categoriaDb.Nome.ToLower() == categoria.Nome.ToLower())
                 {
                     repetido = true;
+                    categoriaDbId = categoriaDb.Id;
                     return;
                 }
             });
-            if (!repetido)
+            if (repetido)
+            {
+                throw new ConflictException($"Já existe uma Categoria {categoria.Nome} registrada! Tente acessar pelo Id: {categoriaDbId}");
+            }
+            else
             {
                 await _categoriasRepository.CadastrarAsync(categoria);
             }
@@ -46,19 +64,15 @@ namespace DeskFlow.Services
 
         public async Task Deletar(string id)
         {
-            Categoria categoriaDB = await _categoriasRepository.ObterPorIdAsync(id);
-            if (categoriaDB == null)
-            {
-                return;
-            }
-            await _categoriasRepository.Deletar(categoriaDB);
+            Categoria categoria = await ObtemOuErro(id);
+            await _categoriasRepository.Deletar(categoria);
 
 
         }
 
         public async Task<Categoria> ObterPorIdAsync(string id)
         {
-            return await _categoriasRepository.ObterPorIdAsync(id);
+            return await ObtemOuErro(id);
         }
 
         public async Task<List<Categoria>> ObterTodosAsync()

@@ -70,12 +70,14 @@ namespace DeskFlow.Services
             List<Chamado> chamados = await _chamadosRepository.ObterTodosAsync(status, prioridade, categoriaId);
             return chamados;
         }
+
         public async Task Iniciar(string id)
         {
             Chamado chamadoDb = await ObtemOuErro(id);
             chamadoDb.AlterarStatus("EmAndamento");
             await _chamadosRepository.Atualizar(chamadoDb);
         }
+
         public async Task Finalizar(string id, string solucao)
         {
             Chamado chamadoDb = await ObtemOuErro(id);

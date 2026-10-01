@@ -5,6 +5,7 @@ using DeskFlow.Repositories.Interfaces;
 using DeskFlow.Services;
 using DeskFlow.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using DeskFlow.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
