@@ -29,15 +29,17 @@ namespace DeskFlow.Services
             }
         }
 
-        public async Task Atualizar(Categoria categoriaAtualizada, string id)
+
+        public async Task<Categoria> Atualizar(Categoria categoriaAtualizada, string id)
         {
             Categoria categoria = await ObtemOuErro(id);
 
             categoria.Atualizar(categoriaAtualizada);
             await _categoriasRepository.Atualizar(categoria);
+            return categoria;
         }
 
-        public async Task CadastrarAsync(Categoria categoria)
+        public async Task<Categoria> CadastrarAsync(Categoria categoria)
         {
             List<Categoria> listaCategoria = await _categoriasRepository.ObterTodosAsync();
             bool repetido = false;
@@ -59,15 +61,23 @@ namespace DeskFlow.Services
             {
                 await _categoriasRepository.CadastrarAsync(categoria);
             }
-            return;
+            return categoria;
         }
 
         public async Task Deletar(string id)
         {
             Categoria categoria = await ObtemOuErro(id);
+
+            bool possuiChamados = await _categoriasRepository.PossuiChamadosAsync(id);
+
+            if (possuiChamados)
+            {
+                throw new ConflictException(
+                    "Não é possível excluir a categoria, pois existem chamados associados a ela."
+                );
+            }
+
             await _categoriasRepository.Deletar(categoria);
-
-
         }
 
         public async Task<Categoria> ObterPorIdAsync(string id)

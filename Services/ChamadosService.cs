@@ -29,11 +29,24 @@ namespace DeskFlow.Services
             return chamadoDb;
         }
 
-        public async Task Atualizar(Chamado chamado, string id)
+        public async Task<Chamado> Atualizar(Chamado chamado, string id)
         {
             Chamado DbChamado = await ObtemOuErro(id);
+
+            Categoria categoria = await _categoriaRepository
+                .ObterPorIdAsync(chamado.CategoriaId);
+
+            if (categoria == null)
+            {
+                throw new NotFoundException("ID da Categoria não encontrado!");
+            }
+
             DbChamado.Atualizar(chamado);
+            DbChamado.Categoria = categoria;
+
             await _chamadosRepository.Atualizar(DbChamado);
+
+            return DbChamado;
         }
 
         public async Task CadastrarAsync(Chamado chamado)
@@ -71,28 +84,42 @@ namespace DeskFlow.Services
             return chamados;
         }
 
-        public async Task Iniciar(string id)
+        public async Task<Chamado> Iniciar(string id)
         {
             Chamado chamadoDb = await ObtemOuErro(id);
+            if (chamadoDb.Status == "Fechado")
+            {
+                throw new ValidationException("Não é possivel Abrir um chamado Fechado!");
+            }
+            if (chamadoDb.Status == "EmAndamento")
+            {
+                throw new ValidationException("Não é possivel Abrir um chamado Em Andamento!");
+            }
             chamadoDb.AlterarStatus("EmAndamento");
             await _chamadosRepository.Atualizar(chamadoDb);
+            return chamadoDb;
         }
 
-        public async Task Finalizar(string id, string solucao)
+        public async Task<Chamado> Finalizar(string id, string solucao)
         {
             Chamado chamadoDb = await ObtemOuErro(id);
+            if (chamadoDb.Status == "Fechado")
+            {
+                throw new ValidationException("Este chamado já esta chefado !");
+            }
+            if (chamadoDb.Status == "Aberto")
+            {
+                throw new ValidationException("Este chamado não foi iniciado, então não pode ser chefado !");
+            }
             chamadoDb.Solucao = solucao;
             chamadoDb.Finalizar();
             await _chamadosRepository.Atualizar(chamadoDb);
+            return chamadoDb;
         }
 
         public async Task<Interacao> AdicionarInteracaoAsync(string id, Interacao interacao)
         {
             Chamado chamadoDb = await ObtemOuErro(id);
-            if (chamadoDb.Status == "Fechado")
-            {
-                throw new ValidationException("Não é possivel interagir com chamados Fechados!");
-            }
             interacao.ChamadoId = chamadoDb.Id;
             chamadoDb.AdicionarInteracao(interacao);
             await _chamadosRepository.Atualizar(chamadoDb);

@@ -9,9 +9,9 @@ namespace DeskFlow.Services.Interfaces
         Task<Chamado?> ObterPorIdAsync(string id);
         Task CadastrarAsync(Chamado chamado);
         Task Deletar(string id);
-        Task Atualizar(Chamado chamado, string id);
-        Task Iniciar(string id);
-        Task Finalizar(string id, string solucao);
+        Task<Chamado> Atualizar(Chamado chamado, string id);
+        Task<Chamado> Iniciar(string id);
+        Task<Chamado> Finalizar(string id, string solucao);
         Task<Interacao> AdicionarInteracaoAsync(string id, Interacao interacao);
     }
 }

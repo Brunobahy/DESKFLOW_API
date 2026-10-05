@@ -9,5 +9,6 @@ namespace DeskFlow.Repositories.Interfaces
         Task CadastrarAsync(Categoria categoria);
         Task Deletar(Categoria categoria);
         Task Atualizar(Categoria categoria);
+        Task<bool> PossuiChamadosAsync(string id);
     }
 }

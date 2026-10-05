@@ -24,7 +24,6 @@ namespace DeskFlow.Models
             Titulo = chamadoAtualizado.Titulo;
             Descricao = chamadoAtualizado.Descricao;
             Prioridade = chamadoAtualizado.Prioridade;
-            Status = chamadoAtualizado.Status;
             Solucao = chamadoAtualizado.Solucao;
             CategoriaId = chamadoAtualizado.CategoriaId;
         }

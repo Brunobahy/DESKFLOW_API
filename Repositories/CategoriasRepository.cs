@@ -38,5 +38,12 @@ namespace DeskFlow.Repositories
         {
             return await _context.Categoria.ToListAsync();
         }
+
+        public async Task<bool> PossuiChamadosAsync(string id)
+        {
+            return await _context.Chamado
+                .AnyAsync(c => c.CategoriaId == id);
+        }
+
     }
 }

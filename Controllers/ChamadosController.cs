@@ -8,7 +8,7 @@ using Microsoft.Identity.Client.NativeInterop;
 namespace DeskFlow.Controllers
 {
     [ApiController]
-    [Route("chamados")]
+    [Route("api/chamados")]
     public class ChamadosCotroller : ControllerBase
     {
         private IChamadosService _chamadoService;
@@ -30,14 +30,16 @@ namespace DeskFlow.Controllers
             return Ok(chamado);
         }
         [HttpDelete("{id}")]
-        public async Task Deletar([FromRoute] string id)
+        public async Task<IActionResult> Deletar([FromRoute] string id)
         {
             await _chamadoService.Deletar(id);
+            return NoContent();
         }
         [HttpPut("{id}")]
-        public async Task Atualizar([FromRoute] string id, [FromBody] Chamado chamado)
+        public async Task<IActionResult> Atualizar([FromRoute] string id, [FromBody] Chamado chamado)
         {
-            await _chamadoService.Atualizar(chamado, id);
+            Chamado chamadoDb = await _chamadoService.Atualizar(chamado, id);
+            return Ok(chamadoDb);
         }
 
         [HttpPost]
@@ -49,20 +51,23 @@ namespace DeskFlow.Controllers
         }
 
         [HttpPost("{id}/iniciar")]
-        public async Task IniciarChamado([FromRoute] string id)
+        public async Task<IActionResult> IniciarChamado([FromRoute] string id)
         {
-            await _chamadoService.Iniciar(id);
+            Chamado chamadodb = await _chamadoService.Iniciar(id);
+            return Ok(chamadodb);
         }
-        [HttpPost("{id}/finalizar")]
-        public async Task FinalizarChamado([FromRoute] string id, [FromBody] string solucao)
+        [HttpPost("{id}/encerrar")]
+        public async Task<IActionResult> FinalizarChamado([FromRoute] string id, [FromBody] string solucao)
         {
             await _chamadoService.Finalizar(id, solucao);
+            return NoContent();
         }
 
         [HttpPost("{id}/interacoes")]
-        public async Task AdicionarInteracao([FromRoute] string id, [FromBody] Interacao interacao)
+        public async Task<IActionResult> AdicionarInteracao([FromRoute] string id, [FromBody] Interacao interacao)
         {
-            await _chamadoService.AdicionarInteracaoAsync(id, interacao);
+            Interacao interacao1 = await _chamadoService.AdicionarInteracaoAsync(id, interacao);
+            return Ok(interacao1);
         }
     }
 }
