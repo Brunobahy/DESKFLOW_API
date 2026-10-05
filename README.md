@@ -27,6 +27,12 @@ O projeto permite cadastrar e gerenciar categorias, abrir chamados, acompanhar s
 * Impedimento de categorias duplicadas
 * Impedimento de exclusão de categorias que possuem chamados associados
 
+## 🎥 Demonstração
+
+Vídeo demonstrando o funcionamento da API e as principais funcionalidades do projeto:
+
+[▶️ Assistir à demonstração no Google Drive](https://drive.google.com/file/d/1SAsmbi6QG1kQdeOTJEaOsIwT3cEdPskR/view?usp=sharing)
+
 ### Chamados
 
 * Cadastro de chamados
